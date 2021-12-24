@@ -8,7 +8,6 @@ export interface TranslationResource {
     dices: string,
     removeAll: string,
     delete: string,
-    correctnessDisclaimer: string,
     sum: string
   }
 }
@@ -23,7 +22,6 @@ export const englishData: TranslationResource = {
     dices: "Dices",
     removeAll: "Remove all",
     delete: "Delete",
-    correctnessDisclaimer: "I take no responsibility for the correctness of this website",
     sum: "Sum"
   }
 }
@@ -38,7 +36,6 @@ export const finnishData: TranslationResource = {
     dices: "Nopat",
     removeAll: "Poista kaikki",
     delete: "Poista",
-    correctnessDisclaimer: "En ota vastuuta tämän verkkosivun oikeellisuudesta",
     sum: "Summa"
   }
 }

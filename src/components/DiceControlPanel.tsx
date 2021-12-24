@@ -67,7 +67,6 @@ const SettingsPanel = styled.div`
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 20px;
 `;
 
 export const DiceControlPanel = ({ dices, setDices, colorScheme, toggleColorScheme }: DiceControlPanelProps) => {
@@ -127,7 +126,6 @@ export const DiceControlPanel = ({ dices, setDices, colorScheme, toggleColorSche
         <SegmentedControl data={languageData} value={i18n.language} onChange={setLanguage} />
         <Button color={colorScheme} onClick={toggleColorScheme}>{themeIcon}</Button>
       </SettingsPanel>
-      <Alert color="gray">{t("correctnessDisclaimer")}</Alert>
     </div>
   </DiceControlPanelContainer>
 }

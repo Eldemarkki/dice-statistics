@@ -147,6 +147,8 @@ const nestedLoop = (_r: number[], f: (nums: number[]) => any, a: number[] = []) 
   } else f(a)
 }
 
+const roundToHalfPercent = (num: number | string) => Math.round(Number(num) * 100 * 2) / 2
+
 const calculateProbabilities = (dices: number[]) => {
   const total = dices.reduce((p, d) => p * d, 1);
 
@@ -164,8 +166,6 @@ const DiceStatistics = ({ dices }: DiceStatisticsProps) => {
   const sumTable = calculateProbabilities(dices)
   const labels = Object.keys(sumTable)
 
-  const options = { responsive: true };
-
   const diceData = dices.length === 0 ? [] : Object.values(sumTable);
 
   const data: ChartData<"bar", number[], unknown> = {
@@ -180,7 +180,29 @@ const DiceStatistics = ({ dices }: DiceStatisticsProps) => {
   }
 
   return <DiceStatisticsContainer>
-    <Bar options={{ ...options }} data={data} />
+    <Bar
+      options={{
+        responsive: true,
+        plugins: {
+          legend: {
+            display: false
+          },
+          tooltip: {
+            callbacks: {
+              title: (vals) => `${Math.round(Number(vals[0].raw) * 100 * 1000) / 1000}%`,
+              label: (vals) => `Sum: ${vals.dataIndex + dices.length}`
+            }
+          }
+        },
+        scales: {
+          y: {
+            ticks: {
+              callback: (value, index, ticks) => `${roundToHalfPercent(value)}%`
+            }
+          }
+        }
+      }}
+      data={data} />
   </DiceStatisticsContainer>
 }
 

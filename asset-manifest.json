@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.css": "/dice-statistics/static/css/main.efa39a64.css",
-    "main.js": "/dice-statistics/static/js/main.a516d500.js",
+    "main.css": "/dice-statistics/static/css/main.8e790823.css",
+    "main.js": "/dice-statistics/static/js/main.2de865ad.js",
     "index.html": "/dice-statistics/index.html",
-    "main.efa39a64.css.map": "/dice-statistics/static/css/main.efa39a64.css.map",
-    "main.a516d500.js.map": "/dice-statistics/static/js/main.a516d500.js.map"
+    "main.8e790823.css.map": "/dice-statistics/static/css/main.8e790823.css.map",
+    "main.2de865ad.js.map": "/dice-statistics/static/js/main.2de865ad.js.map"
   },
   "entrypoints": [
-    "static/css/main.efa39a64.css",
-    "static/js/main.a516d500.js"
+    "static/css/main.8e790823.css",
+    "static/js/main.2de865ad.js"
   ]
 }

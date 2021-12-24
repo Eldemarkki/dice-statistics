@@ -2,7 +2,7 @@
   "name": "dice-statistics",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://dice-statistics.github.io",
+  "homepage": "https://eldemarkki.github.io/dice-statistics/",
   "dependencies": {
     "@mantine/core": "^3.4.3",
     "@testing-library/jest-dom": "^5.16.1",

@@ -1,5 +1,4 @@
 import { Alert, Button, List, NumberInput, SegmentedControl, Space, Title } from "@mantine/core";
-import { useColorScheme, useLocalStorageValue } from "@mantine/hooks";
 import { MoonIcon, SunIcon } from "@radix-ui/react-icons";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -19,7 +18,7 @@ const DiceControlPanelContainer = styled.div`
   padding: 20px;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  gap: 15px;
 `
 
 const DiceListHeader = styled.div`
@@ -27,7 +26,6 @@ const DiceListHeader = styled.div`
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 15px;
 `
 
 const DiceListItem = styled.div`
@@ -39,6 +37,9 @@ const DiceList = styled(List)`
   list-style-type: none;
   padding: 0;
   margin: 0;
+  flex-grow: 1;
+  overflow-y: auto;
+  padding-right: 10px;
 `;
 
 const AddDiceContainer = styled.div`
@@ -110,17 +111,17 @@ export const DiceControlPanel = ({ dices, setDices, colorScheme, toggleColorSche
         <Title order={2}>{t("dices")}</Title>
         <Button onClick={() => setDices([])} size="xs">{t("removeAll")}</Button>
       </DiceListHeader>}
-      <DiceList spacing={5}>
-        {dices.map(d => {
-          return <List.Item key={d.id}>
-            <DiceListItem>
-              <DiceLabel>d{d.sideCount}</DiceLabel>
-              <Button color="red" size="xs" onClick={() => deleteDice(d.id)}>{t("delete")}</Button>
-            </DiceListItem>
-          </List.Item>
-        })}
-      </DiceList>
     </div>
+    <DiceList spacing={5}>
+      {dices.map(d => {
+        return <List.Item key={d.id}>
+          <DiceListItem>
+            <DiceLabel>d{d.sideCount}</DiceLabel>
+            <Button color="red" size="xs" onClick={() => deleteDice(d.id)}>{t("delete")}</Button>
+          </DiceListItem>
+        </List.Item>
+      })}
+    </DiceList>
     <div>
       <SettingsPanel>
         <SegmentedControl data={languageData} value={i18n.language} onChange={setLanguage} />

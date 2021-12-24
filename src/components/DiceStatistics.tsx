@@ -10,6 +10,7 @@ import {
   ChartData,
 } from 'chart.js';
 import styled from 'styled-components';
+import { useTranslation } from 'react-i18next';
 
 interface DiceStatisticsProps {
   dices: number[]
@@ -25,8 +26,11 @@ ChartJS.register(
 );
 
 const DiceStatisticsContainer = styled.div`
-	flex-grow: 1
-  `;
+	flex-grow: 1;
+  display: flex;
+  align-items: center;
+  padding: 10px;
+`;
 
 // Thanks to Antti (https://github.com/Chicken) for this magic function!
 const nestedLoop = (_r: number[], f: (nums: number[]) => any, a: number[] = []) => {
@@ -55,6 +59,7 @@ const calculateProbabilities = (dices: number[]) => {
 export const DiceStatistics = ({ dices }: DiceStatisticsProps) => {
   const sumTable = calculateProbabilities(dices)
   const labels = Object.keys(sumTable)
+  const { t } = useTranslation();
 
   const diceData = dices.length === 0 ? [] : Object.values(sumTable);
 
@@ -73,14 +78,15 @@ export const DiceStatistics = ({ dices }: DiceStatisticsProps) => {
     <Bar
       options={{
         responsive: true,
+        maintainAspectRatio: false,
         plugins: {
           legend: {
             display: false
           },
           tooltip: {
             callbacks: {
-              title: (vals) => `${Math.round(Number(vals[0].raw) * 100 * 1000) / 1000}%`,
-              label: (vals) => `Sum: ${vals.dataIndex + dices.length}`
+              title: (vals) => `${t("sum")}: ${vals[0].label}`,
+              label: (vals) => `${Math.round(Number(vals.raw) * 100 * 1000) / 1000}%`
             }
           }
         },

@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/dice-statistics/static/css/main.efa39a64.css",
-    "main.js": "/dice-statistics/static/js/main.60932b4b.js",
+    "main.js": "/dice-statistics/static/js/main.3cb31ffe.js",
     "index.html": "/dice-statistics/index.html",
     "main.efa39a64.css.map": "/dice-statistics/static/css/main.efa39a64.css.map",
-    "main.60932b4b.js.map": "/dice-statistics/static/js/main.60932b4b.js.map"
+    "main.3cb31ffe.js.map": "/dice-statistics/static/js/main.3cb31ffe.js.map"
   },
   "entrypoints": [
     "static/css/main.efa39a64.css",
-    "static/js/main.60932b4b.js"
+    "static/js/main.3cb31ffe.js"
   ]
 }

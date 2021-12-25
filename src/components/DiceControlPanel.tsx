@@ -86,7 +86,10 @@ export const DiceControlPanel = ({ dices, setDices, colorScheme, toggleColorSche
 
   const dicePresets = [4, 6, 8, 10, 12, 20]
   const sideProduct = dices.reduce((p, d) => p * d.sideCount, 1);
-  const languageData: any = Object.keys(languageResources).map(key => ({
+  const languageData: {
+    value: string,
+    label: string
+  }[] = Object.keys(languageResources).map(key => ({
     value: key,
     label: i18n.t("languageName", { lng: key })
   }))
@@ -105,7 +108,7 @@ export const DiceControlPanel = ({ dices, setDices, colorScheme, toggleColorSche
       <DicePresetsContainer>
         {dicePresets.map(preset => <Button onClick={() => addDice(preset)} color="green" size="xs" key={preset}>d{preset}</Button>)}
       </DicePresetsContainer>
-      {sideProduct >= 20 * 20 * 20 * 20 && <Alert icon="⚠️" title={t("diceAmountWarningTitle")} color="red">{t("diceAmountWarningText")}</Alert>}
+      {sideProduct >= 20 * 20 * 20 * 20 * 10 && <Alert icon="⚠️" title={t("diceAmountWarningTitle")} color="red">{t("diceAmountWarningText")}</Alert>}
       <Space />
       {dices.length !== 0 && <DiceListHeader>
         <Title order={2}>{t("dices")}</Title>

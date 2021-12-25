@@ -32,26 +32,28 @@ const DiceStatisticsContainer = styled.div`
   padding: 10px;
 `;
 
-// Thanks to Antti (https://github.com/Chicken) for this magic function!
-const nestedLoop = (_r: number[], f: (nums: number[]) => any, a: number[] = []) => {
-  const r = [..._r]
+// Thanks to Antti (https://github.com/Chicken) for the initial implementation of this magic function!
+const calculateCombinationSums = (array: number[], f: (sum: number) => void, sumSoFar = 0) => {
+  const r = [...array]
   if (r.length > 0) {
     const end = r.shift() || 0;
-    for (let v = 1; v <= end; v++) nestedLoop(r, f, a.concat(v));
-  } else f(a)
+    for (let v = 1; v <= end; v++) calculateCombinationSums(r, f, sumSoFar + v);
+  }
+  else f(sumSoFar)
 }
 
-const calculateProbabilities = (dices: number[]) => {
+const calculateProbabilities = (dices: number[]): { [key: number]: number } => {
   const total = dices.reduce((p, d) => p * d, 1);
 
   const sumTable: { [key: number]: number } = {};
-
-  nestedLoop(dices, (nums => {
-    const s = nums.reduce((p, v) => p + v, 0);
-    sumTable[s] = ((sumTable[s] || 0) * total + 1) / total;
+  calculateCombinationSums(dices, (sum => {
+    sumTable[sum] = (sumTable[sum] || 0) + 1
   }))
 
-  return sumTable;
+  return Object.keys(sumTable).reduce((prev, key) => ({
+    ...prev,
+    [key]: sumTable[Number(key)] / total
+  }), {});
 }
 
 const roundToHalfPercent = (num: number | string) => Math.round(Number(num) * 100 * 2) / 2

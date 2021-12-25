@@ -29,7 +29,7 @@ export const DiceConfiguration = ({ dices }: DiceConfigurationProps) => {
 
 	return (
 		<Container>
-			{parts.map(p => <DicePart>{p}</DicePart>)}
+			{parts.map(p => <DicePart key={p}>{p}</DicePart>)}
 		</Container>
 	)
 }

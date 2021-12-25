@@ -11,7 +11,6 @@ import {
 } from 'chart.js';
 import styled from 'styled-components';
 import { useTranslation } from 'react-i18next';
-import { sign } from 'crypto';
 
 interface DiceStatisticsProps {
   dices: number[]
@@ -43,20 +42,30 @@ const calculateCombinationSums = (array: number[], f: (sum: number) => void, sum
   else f(sumSoFar)
 }
 
-const factorial = (n: number) => {
-  if (n <= 1) return 1;
-  let result = 1;
-  for (let i = 1; i <= n; i++) {
+const factorial = (n: bigint) => {
+  let result = BigInt(1);
+  if (n <= 1) return result;
+
+  for (let i = BigInt(1); i <= n; i++) {
     result *= i;
   }
   return result
 }
 
-const choose = (n: number, k: number) => {
-  return factorial(n) / (factorial(k) * factorial(n - k))
+const bigIntMin = (a: bigint, b: bigint) => a < b ? a : b
+const bigIntMax = (a: bigint, b: bigint) => a > b ? a : b
+
+const choose = (n: bigint, k: bigint) => {
+  let result = BigInt(1);
+  for (let i = bigIntMin(n, k) + BigInt(1); i <= bigIntMax(n, k); i++) {
+    result *= i;
+  }
+  return result / factorial(n - k);
 }
 
 const calculateProbabilities = (dices: number[]): { [key: number]: number } => {
+  if (dices.length === 0) return {};
+
   const areAllSame = dices.every(d => d === dices[0]);
 
   const sumTable: { [key: number]: number } = {};
@@ -64,16 +73,18 @@ const calculateProbabilities = (dices: number[]): { [key: number]: number } => {
     // https://www.lucamoroni.it/the-dice-roll-sum-problem/
     const min = dices.length;
     const max = dices.reduce((p, d) => p + d, 0);
-    const n = dices.length;
-    const s = dices[0]
-    const total = Math.pow(s, n)
-    for (let p = min; p <= max; p++) {
-      let sum = 0;
-      const kmax = Math.floor((p - n) / s)
-      for (let k = 0; k <= kmax; k++) {
-        sum += Math.pow(-1, k) * choose(n, k) * choose(p - s * k - 1, p - s * k - n);
+    const n = BigInt(dices.length);
+    const s = BigInt(dices[0])
+    const total = Math.pow(dices[0], dices.length)
+    for (let p = BigInt(min); p <= BigInt(max); p++) {
+      let sum = BigInt(0);
+      const kmax = (p - n) / s
+      for (let k = BigInt(0); k <= BigInt(kmax); k++) {
+        const sign = k % BigInt(2) === BigInt(0) ? 1 : -1;
+        sum += BigInt(sign) * choose(n, k) * choose(p - s * k - BigInt(1), p - s * k - n);
       }
-      sumTable[p] = sum / total;
+
+      sumTable[Number(p)] = Math.max(Number(sum), 0) / total;
     }
     return sumTable
   }
@@ -89,8 +100,6 @@ const calculateProbabilities = (dices: number[]): { [key: number]: number } => {
     }), {});
   }
 }
-
-const roundToHalfPercent = (num: number | string) => Math.round(Number(num) * 100 * 2) / 2
 
 export const DiceStatistics = ({ dices }: DiceStatisticsProps) => {
   const sumTable = calculateProbabilities(dices)
@@ -122,14 +131,14 @@ export const DiceStatistics = ({ dices }: DiceStatisticsProps) => {
           tooltip: {
             callbacks: {
               title: (vals) => `${t("sum")}: ${vals[0].label}`,
-              label: (vals) => `${Math.round(Number(vals.raw) * 100 * 1000) / 1000}%`
+              label: (vals) => `${(Number(vals.raw) * 100).toFixed(3)}%`
             }
           }
         },
         scales: {
           y: {
             ticks: {
-              callback: (value, index, ticks) => `${roundToHalfPercent(value)}%`
+              callback: (value, index, ticks) => `${(Number(value) * 100).toFixed(1)}%`
             }
           }
         }

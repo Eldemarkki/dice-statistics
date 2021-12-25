@@ -14,7 +14,7 @@ interface DiceControlPanelProps {
 }
 
 const DiceControlPanelContainer = styled.div`
-  max-width: 320px;
+  max-width: 330px;
   padding: 20px;
   display: flex;
   flex-direction: column;
@@ -53,6 +53,7 @@ const AddDiceContainer = styled.div`
 const DicePresetsContainer = styled.div`
   display: flex;
   flex-direction: row;
+  justify-content: space-around;
   margin-bottom: 15px;
   gap: 10px;
 `

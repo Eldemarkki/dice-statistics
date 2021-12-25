@@ -41,8 +41,6 @@ const nestedLoop = (_r: number[], f: (nums: number[]) => any, a: number[] = []) 
   } else f(a)
 }
 
-const roundToHalfPercent = (num: number | string) => Math.round(Number(num) * 100 * 2) / 2
-
 const calculateProbabilities = (dices: number[]) => {
   const total = dices.reduce((p, d) => p * d, 1);
 
@@ -55,6 +53,8 @@ const calculateProbabilities = (dices: number[]) => {
 
   return sumTable;
 }
+
+const roundToHalfPercent = (num: number | string) => Math.round(Number(num) * 100 * 2) / 2
 
 export const DiceStatistics = ({ dices }: DiceStatisticsProps) => {
   const sumTable = calculateProbabilities(dices)
@@ -69,7 +69,7 @@ export const DiceStatistics = ({ dices }: DiceStatisticsProps) => {
       {
         label: "",
         data: diceData,
-        backgroundColor: "red"
+        backgroundColor: "#eb4034"
       }
     ]
   }

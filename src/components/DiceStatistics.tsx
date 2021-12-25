@@ -1,29 +1,10 @@
-import { Bar } from 'react-chartjs-2';
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend,
-  ChartData,
-} from 'chart.js';
 import styled from 'styled-components';
 import { useTranslation } from 'react-i18next';
+import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 
 interface DiceStatisticsProps {
   dices: number[]
 };
-
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend
-);
 
 const DiceStatisticsContainer = styled.div`
 	flex-grow: 1;
@@ -103,46 +84,34 @@ const calculateProbabilities = (dices: number[]): { [key: number]: number } => {
 
 export const DiceStatistics = ({ dices }: DiceStatisticsProps) => {
   const sumTable = calculateProbabilities(dices)
-  const labels = Object.keys(sumTable)
   const { t } = useTranslation();
 
-  const diceData = dices.length === 0 ? [] : Object.values(sumTable);
-
-  const data: ChartData<"bar", number[], unknown> = {
-    labels,
-    datasets: [
-      {
-        label: "",
-        data: diceData,
-        backgroundColor: "#eb4034"
-      }
-    ]
-  }
+  const data = Object.keys(sumTable).sort((a, b) => Number(a) - Number(b)).map(key => {
+    return {
+      name: key,
+      sum: sumTable[Number(key)]
+    }
+  })
 
   return <DiceStatisticsContainer>
-    <Bar
-      options={{
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-          legend: {
-            display: false
-          },
-          tooltip: {
-            callbacks: {
-              title: (vals) => `${t("sum")}: ${vals[0].label}`,
-              label: (vals) => `${(Number(vals.raw) * 100).toFixed(3)}%`
-            }
-          }
-        },
-        scales: {
-          y: {
-            ticks: {
-              callback: (value, index, ticks) => `${(Number(value) * 100).toFixed(1)}%`
-            }
-          }
-        }
-      }}
-      data={data} />
+    <ResponsiveContainer>
+      <BarChart data={data} height={500} width={500}>
+        <XAxis dataKey="name" />
+        <YAxis
+          tickCount={10}
+          unit={"%"}
+          interval={0}
+          tickFormatter={(value, index) => `${(Number(value) * 100).toFixed(1)}`} />
+        <CartesianGrid vertical={false} />
+        <Tooltip
+          cursor={{
+            fill: "#CDE4FF"
+          }}
+          labelFormatter={(v) => `${t("sum")}: ${v}`}
+          separator=''
+          formatter={(value: number) => [`${(value * 100).toFixed(3)}%`, ""]} />
+        <Bar dataKey="sum" fill="#1f83d9" />
+      </BarChart>
+    </ResponsiveContainer>
   </DiceStatisticsContainer>
 }

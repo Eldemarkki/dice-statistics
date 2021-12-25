@@ -13,9 +13,8 @@ interface AppContainerProps {
 const AppContainer = styled.div<AppContainerProps>`
   display: flex;
   flex-direction: row;
-  gap: 30px;
   height: 100vh;
-  background-color: ${props => props.colorScheme === "dark" ? "#0a0b15" : "white"};
+  background-color: ${props => props.colorScheme === "dark" ? "#1A1B1E" : "white"};
 `
 
 export const App = () => {

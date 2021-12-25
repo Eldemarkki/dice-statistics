@@ -1,4 +1,4 @@
-import { Alert, Button, List, NumberInput, SegmentedControl, Space, Title } from "@mantine/core";
+import { Alert, Button, Group, List, NumberInput, SegmentedControl, Space, Title } from "@mantine/core";
 import { MoonIcon, SunIcon } from "@radix-ui/react-icons";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -64,13 +64,6 @@ const DiceLabel = styled.span`
   min-width: 50px;
 `
 
-const SettingsPanel = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-`;
-
 export const DiceControlPanel = ({ dices, setDices, colorScheme, toggleColorScheme }: DiceControlPanelProps) => {
   const [sideCount, setSideCount] = useState(6);
   const { t } = useTranslation();
@@ -111,7 +104,7 @@ export const DiceControlPanel = ({ dices, setDices, colorScheme, toggleColorSche
         <Button onClick={() => addDice(sideCount)}>{t("add")}</Button>
       </AddDiceContainer>
       <DicePresetsContainer>
-        {dicePresets.map(preset => <Button onClick={() => addDice(preset)} color="green" size="xs" key={preset}>d{preset}</Button>)}
+        {dicePresets.map(preset => <Button onClick={() => addDice(preset)} color="green" compact key={preset}>d{preset}</Button>)}
       </DicePresetsContainer>
       {sideProduct >= warningDiceAmount && !areAllSame && <Alert icon="⚠️" title={t("diceAmountWarningTitle")} color="red">{t("diceAmountWarningText")}</Alert>}
       {sideProduct >= warningDiceAmount && areAllSame && <Alert icon="⚠️" title={t("diceAmountWarningTitle")} color="yellow">{t("sameDiceAmountWarningText")}</Alert>}
@@ -119,9 +112,9 @@ export const DiceControlPanel = ({ dices, setDices, colorScheme, toggleColorSche
       {dices.length !== 0 && <div>
         <DiceListHeader>
           <Title order={2}>{t("dices")}</Title>
-          <Button onClick={() => setDices([])} size="xs">{t("removeAll")}</Button>
+          <Button onClick={() => setDices([])} size="xs" variant="outline" color="red">{t("removeAll")}</Button>
         </DiceListHeader>
-        <DiceConfiguration dices={dices.map(d => d.sideCount)} />
+        <DiceConfiguration dices={dices.map(d => d.sideCount)} darkTheme={colorScheme === "dark"} />
       </div>
       }
     </div>
@@ -130,16 +123,14 @@ export const DiceControlPanel = ({ dices, setDices, colorScheme, toggleColorSche
         return <List.Item key={d.id}>
           <DiceListItem>
             <DiceLabel>d{d.sideCount}</DiceLabel>
-            <Button color="red" size="xs" onClick={() => deleteDice(d.id)}>{t("delete")}</Button>
+            <Button color="red" size="xs" variant="outline" onClick={() => deleteDice(d.id)}>{t("delete")}</Button>
           </DiceListItem>
         </List.Item>
       })}
     </DiceList>
-    <div>
-      <SettingsPanel>
-        <SegmentedControl data={languageData} value={i18n.language} onChange={setLanguage} />
-        <Button color={colorScheme === "dark" ? "light" : "dark"} onClick={toggleColorScheme}>{themeIcon}</Button>
-      </SettingsPanel>
-    </div>
+    <Group position="apart">
+      <SegmentedControl data={languageData} value={i18n.language} onChange={setLanguage} />
+      <Button color={colorScheme === "dark" ? "light" : "dark"} onClick={toggleColorScheme}>{themeIcon}</Button>
+    </Group>
   </DiceControlPanelContainer>
 }

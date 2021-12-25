@@ -11,6 +11,7 @@ import {
 } from 'chart.js';
 import styled from 'styled-components';
 import { useTranslation } from 'react-i18next';
+import { sign } from 'crypto';
 
 interface DiceStatisticsProps {
   dices: number[]
@@ -42,18 +43,51 @@ const calculateCombinationSums = (array: number[], f: (sum: number) => void, sum
   else f(sumSoFar)
 }
 
+const factorial = (n: number) => {
+  if (n <= 1) return 1;
+  let result = 1;
+  for (let i = 1; i <= n; i++) {
+    result *= i;
+  }
+  return result
+}
+
+const choose = (n: number, k: number) => {
+  return factorial(n) / (factorial(k) * factorial(n - k))
+}
+
 const calculateProbabilities = (dices: number[]): { [key: number]: number } => {
-  const total = dices.reduce((p, d) => p * d, 1);
+  const areAllSame = dices.every(d => d === dices[0]);
 
   const sumTable: { [key: number]: number } = {};
-  calculateCombinationSums(dices, (sum => {
-    sumTable[sum] = (sumTable[sum] || 0) + 1
-  }))
+  if (areAllSame) {
+    // https://www.lucamoroni.it/the-dice-roll-sum-problem/
+    const min = dices.length;
+    const max = dices.reduce((p, d) => p + d, 0);
+    const n = dices.length;
+    const s = dices[0]
+    const total = Math.pow(s, n)
+    for (let p = min; p <= max; p++) {
+      let sum = 0;
+      const kmax = Math.floor((p - n) / s)
+      for (let k = 0; k <= kmax; k++) {
+        sum += Math.pow(-1, k) * choose(n, k) * choose(p - s * k - 1, p - s * k - n);
+      }
+      sumTable[p] = sum / total;
+    }
+    return sumTable
+  }
+  else {
+    calculateCombinationSums(dices, (sum => {
+      sumTable[sum] = (sumTable[sum] || 0) + 1
+    }))
 
-  return Object.keys(sumTable).reduce((prev, key) => ({
-    ...prev,
-    [key]: sumTable[Number(key)] / total
-  }), {});
+    const total = dices.reduce((p, d) => p * d, 1);
+    return Object.keys(sumTable).reduce((prev, key) => ({
+      ...prev,
+      [key]: sumTable[Number(key)] / total
+    }), {});
+  }
 }
 
 const roundToHalfPercent = (num: number | string) => Math.round(Number(num) * 100 * 2) / 2

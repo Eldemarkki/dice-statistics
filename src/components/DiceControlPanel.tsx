@@ -5,6 +5,7 @@ import { useTranslation } from "react-i18next";
 import styled from "styled-components";
 import Dice, { createDie } from "../data/Dice";
 import i18n, { languageResources } from "../localization/i18n";
+import { DiceConfiguration } from "./DiceConfiguration";
 
 interface DiceControlPanelProps {
   dices: Dice[],
@@ -74,7 +75,7 @@ export const DiceControlPanel = ({ dices, setDices, colorScheme, toggleColorSche
   const [sideCount, setSideCount] = useState(6);
   const { t } = useTranslation();
 
-  const themeIcon = colorScheme === "dark" ? <MoonIcon /> : <SunIcon />;
+  const themeIcon = colorScheme === "dark" ? <SunIcon /> : <MoonIcon />;
 
   const addDice = (sides: number) => {
     setDices([...dices, createDie(sides)]);
@@ -86,6 +87,8 @@ export const DiceControlPanel = ({ dices, setDices, colorScheme, toggleColorSche
 
   const dicePresets = [4, 6, 8, 10, 12, 20]
   const sideProduct = dices.reduce((p, d) => p * d.sideCount, 1);
+  const areAllSame = dices.every(d => d.sideCount === dices[0].sideCount);
+
   const languageData: {
     value: string,
     label: string
@@ -98,6 +101,8 @@ export const DiceControlPanel = ({ dices, setDices, colorScheme, toggleColorSche
     i18n.changeLanguage(value);
   }
 
+  const warningDiceAmount = 20 * 20 * 20 * 20 * 10;
+
   return <DiceControlPanelContainer>
     <div>
       <Title order={2}>{t("addDice")}</Title>
@@ -108,12 +113,17 @@ export const DiceControlPanel = ({ dices, setDices, colorScheme, toggleColorSche
       <DicePresetsContainer>
         {dicePresets.map(preset => <Button onClick={() => addDice(preset)} color="green" size="xs" key={preset}>d{preset}</Button>)}
       </DicePresetsContainer>
-      {sideProduct >= 20 * 20 * 20 * 20 * 10 && <Alert icon="⚠️" title={t("diceAmountWarningTitle")} color="red">{t("diceAmountWarningText")}</Alert>}
+      {sideProduct >= warningDiceAmount && !areAllSame && <Alert icon="⚠️" title={t("diceAmountWarningTitle")} color="red">{t("diceAmountWarningText")}</Alert>}
+      {sideProduct >= warningDiceAmount && areAllSame && <Alert icon="⚠️" title={t("diceAmountWarningTitle")} color="yellow">{t("sameDiceAmountWarningText")}</Alert>}
       <Space />
-      {dices.length !== 0 && <DiceListHeader>
-        <Title order={2}>{t("dices")}</Title>
-        <Button onClick={() => setDices([])} size="xs">{t("removeAll")}</Button>
-      </DiceListHeader>}
+      {dices.length !== 0 && <div>
+        <DiceListHeader>
+          <Title order={2}>{t("dices")}</Title>
+          <Button onClick={() => setDices([])} size="xs">{t("removeAll")}</Button>
+        </DiceListHeader>
+        <DiceConfiguration dices={dices.map(d => d.sideCount)} />
+      </div>
+      }
     </div>
     <DiceList spacing={5}>
       {dices.map(d => {
@@ -128,7 +138,7 @@ export const DiceControlPanel = ({ dices, setDices, colorScheme, toggleColorSche
     <div>
       <SettingsPanel>
         <SegmentedControl data={languageData} value={i18n.language} onChange={setLanguage} />
-        <Button color={colorScheme} onClick={toggleColorScheme}>{themeIcon}</Button>
+        <Button color={colorScheme === "dark" ? "light" : "dark"} onClick={toggleColorScheme}>{themeIcon}</Button>
       </SettingsPanel>
     </div>
   </DiceControlPanelContainer>

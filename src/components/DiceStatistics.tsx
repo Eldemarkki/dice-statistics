@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import { useTranslation } from 'react-i18next';
 import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
+import { Center, Text } from '@mantine/core';
 
 interface DiceStatisticsProps {
   dices: number[]
@@ -92,6 +93,12 @@ export const DiceStatistics = ({ dices }: DiceStatisticsProps) => {
       sum: sumTable[Number(key)]
     }
   })
+
+  if (dices.length === 0) {
+    return <Center style={{ flexGrow: 1 }}>
+      <Text>{t("noStatistics")}</Text>
+    </Center>
+  }
 
   return <DiceStatisticsContainer>
     <ResponsiveContainer>

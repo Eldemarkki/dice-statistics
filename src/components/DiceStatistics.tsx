@@ -12,6 +12,7 @@ const DiceStatisticsContainer = styled.div`
   display: flex;
   align-items: center;
   padding: 10px;
+  overflow: hidden;
 `;
 
 // Thanks to Antti (https://github.com/Chicken) for the initial implementation of this magic function!

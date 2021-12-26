@@ -1,31 +1,26 @@
-import React, { useContext } from 'react'
-import styled from 'styled-components';
-import { ColorSchemeContext } from './contexts/ColorSchemeContext';
+import { createStyles } from '@mantine/core';
 
 interface DiceConfigurationProps {
   dices: number[],
 }
 
-const Container = styled.div`
-	margin-top: 10px;
-`
-
-interface DicePartProps {
-  darkTheme?: boolean | undefined;
-}
-
-const DicePart = styled.span<DicePartProps>`
-	display: inline-block;
-	margin-right: 5px;
-	padding: 2px 5px;
-	border-radius: 10px;
-  font-size: 0.9rem;
-	background-color: ${props => props.darkTheme ? "#333438" : "#dadcde"};
-  color: ${props => props.darkTheme ? "white" : "blacke9ecef"};
-`;
+const useStyles = createStyles(theme => ({
+  container: {
+    marginTop: 10,
+  },
+  dicePart: {
+    display: "inline-block",
+    marginRight: 5,
+    padding: "2px 5px",
+    borderRadius: "10px",
+    fontSize: "0.9rem",
+    backgroundColor: theme.colors.gray[theme.colorScheme === "dark" ? 8 : 3],
+    color: theme.colors.gray[theme.colorScheme === "dark" ? 0 : 9]
+  }
+}))
 
 export const DiceConfiguration = ({ dices }: DiceConfigurationProps) => {
-  const { theme } = useContext(ColorSchemeContext);
+  const { classes } = useStyles();
 
   const amounts: { [sideCount: number]: number } = dices.reduce<{
     [sideCount: number]: number
@@ -37,8 +32,8 @@ export const DiceConfiguration = ({ dices }: DiceConfigurationProps) => {
   const parts = Object.keys(amounts).sort((a, b) => Number(a) - Number(b)).map(sideCount => `${amounts[Number(sideCount)]}d${sideCount}`);
 
   return (
-    <Container>
-      {parts.map(p => <DicePart key={p} darkTheme={theme === "dark"}>{p}</DicePart>)}
-    </Container>
+    <div className={classes.container}>
+      {parts.map(p => <span key={p} className={classes.dicePart}>{p}</span>)}
+    </div>
   )
 }

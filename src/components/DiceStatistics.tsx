@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { useTranslation } from 'react-i18next';
 import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
-import { Center, Text } from '@mantine/core';
+import { Center, Text, useMantineTheme } from '@mantine/core';
 
 interface DiceStatisticsProps {
   dices: number[]
@@ -86,7 +86,7 @@ const calculateProbabilities = (dices: number[]): { [key: number]: number } => {
 export const DiceStatistics = ({ dices }: DiceStatisticsProps) => {
   const sumTable = calculateProbabilities(dices)
   const { t } = useTranslation();
-
+  const theme = useMantineTheme()
   const data = Object.keys(sumTable).sort((a, b) => Number(a) - Number(b)).map(key => {
     return {
       name: key,
@@ -112,12 +112,12 @@ export const DiceStatistics = ({ dices }: DiceStatisticsProps) => {
         <CartesianGrid vertical={false} />
         <Tooltip
           cursor={{
-            fill: "#CDE4FF"
+            fill: theme.fn.rgba(theme.colors.gray[theme.colorScheme === "dark" ? 5 : 4], 0.7)
           }}
           labelFormatter={(v) => `${t("sum")}: ${v}`}
           separator=''
           formatter={(value: number) => [`${(value * 100).toFixed(3)}%`, ""]} />
-        <Bar dataKey="sum" fill="#1f83d9" />
+        <Bar dataKey="sum" fill={theme.colors.blue[theme.colorScheme === "dark" ? 8 : 6]} />
       </BarChart>
     </ResponsiveContainer>
   </DiceStatisticsContainer>

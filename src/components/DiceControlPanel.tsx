@@ -14,7 +14,7 @@ interface DiceControlPanelProps {
 }
 
 const DiceControlPanelContainer = styled.div`
-  max-width: 330px;
+  max-width: 320px;
   padding: 20px;
   display: flex;
   flex-direction: column;
@@ -41,15 +41,6 @@ const DiceList = styled(List)`
   overflow-y: auto;
   padding-right: 10px;
 `;
-
-const AddDiceContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  margin-top: 10px;
-  margin-bottom: 15px;
-  gap: 15px;
-`
 
 const DicePresetsContainer = styled.div`
   display: flex;
@@ -100,10 +91,10 @@ export const DiceControlPanel = ({ dices, setDices }: DiceControlPanelProps) => 
   return <DiceControlPanelContainer>
     <div>
       <Title order={2}>{t("addDice")}</Title>
-      <AddDiceContainer>
-        <NumberInput value={sideCount} onChange={val => setSideCount(val || 6)} min={1} />
-        <Button onClick={() => addDice(sideCount)}>{t("add")}</Button>
-      </AddDiceContainer>
+      <Group mt={10} mb={15} position="apart">
+        <NumberInput size="sm" value={sideCount} onChange={val => setSideCount(val || 6)} min={1} />
+        <Button style={{ minWidth: 70 }} onClick={() => addDice(sideCount)}>{t("add")}</Button>
+      </Group>
       <DicePresetsContainer>
         {dicePresets.map(preset => <Button onClick={() => addDice(preset)} color="green" compact key={preset}>d{preset}</Button>)}
       </DicePresetsContainer>
@@ -120,14 +111,12 @@ export const DiceControlPanel = ({ dices, setDices }: DiceControlPanelProps) => 
       }
     </div>
     <DiceList spacing={5}>
-      {dices.map(d => {
-        return <List.Item key={d.id}>
-          <DiceListItem>
-            <DiceLabel>d{d.sideCount}</DiceLabel>
-            <Button color="red" size="xs" variant="outline" onClick={() => deleteDice(d.id)}>{t("delete")}</Button>
-          </DiceListItem>
-        </List.Item>
-      })}
+      {dices.map(d => (<List.Item key={d.id}>
+        <DiceListItem>
+          <DiceLabel>d{d.sideCount}</DiceLabel>
+          <Button color="red" size="xs" variant="outline" onClick={() => deleteDice(d.id)}>{t("delete")}</Button>
+        </DiceListItem>
+      </List.Item>))}
     </DiceList>
     <Group position="apart">
       <SegmentedControl data={languageData} value={i18n.language} onChange={setLanguage} />

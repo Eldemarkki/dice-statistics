@@ -1,17 +1,16 @@
 import { Alert, Button, Group, List, NumberInput, SegmentedControl, Space, Title } from "@mantine/core";
 import { MoonIcon, SunIcon } from "@radix-ui/react-icons";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "styled-components";
 import Dice, { createDie } from "../data/Dice";
 import i18n, { languageResources } from "../localization/i18n";
+import { ColorSchemeContext } from "./contexts/ColorSchemeContext";
 import { DiceConfiguration } from "./DiceConfiguration";
 
 interface DiceControlPanelProps {
   dices: Dice[],
-  setDices: (newDices: Dice[]) => void,
-  colorScheme: "dark" | "light",
-  toggleColorScheme: () => void
+  setDices: (newDices: Dice[]) => void
 }
 
 const DiceControlPanelContainer = styled.div`
@@ -65,11 +64,12 @@ const DiceLabel = styled.span`
   min-width: 50px;
 `
 
-export const DiceControlPanel = ({ dices, setDices, colorScheme, toggleColorScheme }: DiceControlPanelProps) => {
+export const DiceControlPanel = ({ dices, setDices }: DiceControlPanelProps) => {
   const [sideCount, setSideCount] = useState(6);
   const { t } = useTranslation();
+  const { theme, setTheme } = useContext(ColorSchemeContext);
 
-  const themeIcon = colorScheme === "dark" ? <SunIcon /> : <MoonIcon />;
+  const themeIcon = theme === "dark" ? <SunIcon /> : <MoonIcon />;
 
   const addDice = (sides: number) => {
     setDices([...dices, createDie(sides)]);
@@ -115,7 +115,7 @@ export const DiceControlPanel = ({ dices, setDices, colorScheme, toggleColorSche
           <Title order={2}>{t("dices")}</Title>
           <Button onClick={() => setDices([])} size="xs" variant="outline" color="red">{t("removeAll")}</Button>
         </DiceListHeader>
-        <DiceConfiguration dices={dices.map(d => d.sideCount)} darkTheme={colorScheme === "dark"} />
+        <DiceConfiguration dices={dices.map(d => d.sideCount)} />
       </div>
       }
     </div>
@@ -131,7 +131,7 @@ export const DiceControlPanel = ({ dices, setDices, colorScheme, toggleColorSche
     </DiceList>
     <Group position="apart">
       <SegmentedControl data={languageData} value={i18n.language} onChange={setLanguage} />
-      <Button color={colorScheme === "dark" ? "light" : "dark"} onClick={toggleColorScheme}>{themeIcon}</Button>
+      <Button color={theme === "dark" ? "light" : "dark"} onClick={() => setTheme(theme === "dark" ? "light" : "dark")}>{themeIcon}</Button>
     </Group>
   </DiceControlPanelContainer>
 }

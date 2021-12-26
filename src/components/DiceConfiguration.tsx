@@ -1,9 +1,9 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import styled from 'styled-components';
+import { ColorSchemeContext } from './contexts/ColorSchemeContext';
 
 interface DiceConfigurationProps {
   dices: number[],
-  darkTheme?: boolean | undefined
 }
 
 const Container = styled.div`
@@ -24,7 +24,9 @@ const DicePart = styled.span<DicePartProps>`
   color: ${props => props.darkTheme ? "white" : "blacke9ecef"};
 `;
 
-export const DiceConfiguration = ({ dices, darkTheme }: DiceConfigurationProps) => {
+export const DiceConfiguration = ({ dices }: DiceConfigurationProps) => {
+  const { theme } = useContext(ColorSchemeContext);
+
   const amounts: { [sideCount: number]: number } = dices.reduce<{
     [sideCount: number]: number
   }>((prev, sideCount) => ({
@@ -36,7 +38,7 @@ export const DiceConfiguration = ({ dices, darkTheme }: DiceConfigurationProps) 
 
   return (
     <Container>
-      {parts.map(p => <DicePart key={p} darkTheme={darkTheme}>{p}</DicePart>)}
+      {parts.map(p => <DicePart key={p} darkTheme={theme === "dark"}>{p}</DicePart>)}
     </Container>
   )
 }

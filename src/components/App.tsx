@@ -2,8 +2,10 @@ import { MantineProvider } from '@mantine/core';
 import { useColorScheme, useLocalStorageValue } from '@mantine/hooks';
 import React, { useState } from 'react';
 import styled from "styled-components";
+import { ColorScheme } from '../data/ColorScheme';
 
 import Dice from '../data/Dice';
+import { ColorSchemeContext } from './contexts/ColorSchemeContext';
 import { DiceControlPanel } from './DiceControlPanel';
 import { DiceStatistics } from './DiceStatistics';
 
@@ -21,14 +23,29 @@ export const App = () => {
   const [dices, setDices] = useState<Dice[]>([]);
 
   const preferredColorScheme = useColorScheme();
-  const [colorScheme, setColorScheme] = useLocalStorageValue({ key: "colorScheme", defaultValue: preferredColorScheme })
+  const [colorSchemeFromLocalStorage, setColorSchemeToLocalStorage] = useLocalStorageValue<ColorScheme>({ key: "colorScheme", defaultValue: preferredColorScheme })
+  const [colorScheme, setColorScheme] = useState(colorSchemeFromLocalStorage);
+  const actualColorScheme = colorScheme === "system" ? preferredColorScheme : colorScheme; 
+
+  const setTheme = (newTheme: ColorScheme) => {
+    setColorScheme(newTheme);
+    setColorSchemeToLocalStorage(newTheme)
+  }
+
+  const colorSchemeValue = {
+    verboseTheme: colorScheme,
+    theme: actualColorScheme,
+    setTheme
+  }
 
   return (
-    <MantineProvider theme={{ colorScheme }}>
-      <AppContainer colorScheme={colorScheme}>
-        <DiceControlPanel dices={dices} setDices={setDices} colorScheme={colorScheme} toggleColorScheme={() => setColorScheme(colorScheme === "dark" ? "light" : "dark")} />
-        <DiceStatistics dices={dices.map(d => d.sideCount)} />
-      </AppContainer>
+    <MantineProvider theme={{ colorScheme: actualColorScheme }}>
+      <ColorSchemeContext.Provider value={colorSchemeValue}>
+        <AppContainer colorScheme={actualColorScheme}>
+          <DiceControlPanel dices={dices} setDices={setDices} />
+          <DiceStatistics dices={dices.map(d => d.sideCount)} />
+        </AppContainer>
+      </ColorSchemeContext.Provider>
     </MantineProvider>
   );
 }

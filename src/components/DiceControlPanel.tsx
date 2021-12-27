@@ -1,12 +1,13 @@
-import { Alert, Button, Group, List, NumberInput, SegmentedControl, Space, Title } from "@mantine/core";
+import { Alert, Button, Group, List, Modal, NumberInput, SegmentedControl, Space, Title } from "@mantine/core";
 import { MoonIcon, SunIcon } from "@radix-ui/react-icons";
 import { useContext, useState } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "styled-components";
 import Dice, { createDie } from "../data/Dice";
 import i18n, { languageResources } from "../localization/i18n";
-import { ColorSchemeContext } from "./contexts/ColorSchemeContext";
+import { ColorSchemeContext } from "../contexts/ColorSchemeContext";
 import { DiceConfiguration } from "./DiceConfiguration";
+import { DiceThrowModal } from "./DiceThrowModal";
 
 interface DiceControlPanelProps {
   dices: Dice[],
@@ -57,6 +58,7 @@ const DiceLabel = styled.span`
 
 export const DiceControlPanel = ({ dices, setDices }: DiceControlPanelProps) => {
   const [sideCount, setSideCount] = useState(6);
+  const [diceThrowModalOpen, setDiceThrowModalOpen] = useState(false);
   const { t } = useTranslation();
   const { theme, setTheme } = useContext(ColorSchemeContext);
 
@@ -89,6 +91,13 @@ export const DiceControlPanel = ({ dices, setDices }: DiceControlPanelProps) => 
   const warningDiceAmount = 20 * 20 * 20 * 20 * 10;
 
   return <DiceControlPanelContainer>
+    <Modal
+      opened={diceThrowModalOpen}
+      onClose={() => setDiceThrowModalOpen(false)}
+      centered
+      title={<Title order={2}>{t("throwingDiceTitle")}</Title>}>
+      <DiceThrowModal dices={dices} />
+    </Modal>
     <div>
       <Title order={2}>{t("addDice")}</Title>
       <Group mt={10} mb={15} position="apart">
@@ -104,7 +113,10 @@ export const DiceControlPanel = ({ dices, setDices }: DiceControlPanelProps) => 
       {dices.length !== 0 && <div>
         <DiceListHeader>
           <Title order={2}>{t("dices")}</Title>
-          <Button onClick={() => setDices([])} size="xs" variant="outline" color="red">{t("removeAll")}</Button>
+          <Group>
+            <Button onClick={() => setDiceThrowModalOpen(true)} size="xs" variant="outline" color="blue">{t("throw")}</Button>
+            <Button onClick={() => setDices([])} size="xs" variant="outline" color="red">{t("removeAll")}</Button>
+          </Group>
         </DiceListHeader>
         <DiceConfiguration dices={dices.map(d => d.sideCount)} />
       </div>

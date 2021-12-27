@@ -10,7 +10,10 @@ export interface TranslationResource {
     removeAll: string,
     delete: string,
     sum: string,
-    noStatistics: string
+    noStatistics: string,
+    throwingDiceTitle: string,
+    average: string,
+    throw: string
   }
 }
 
@@ -26,7 +29,10 @@ export const englishData: TranslationResource = {
     removeAll: "Remove all",
     delete: "Delete",
     sum: "Sum",
-    noStatistics: "No statistics yet, add some dices on the left panel"
+    noStatistics: "No statistics yet, add some dices on the left panel",
+    throwingDiceTitle: "Throwing dice...",
+    average: "Average",
+    throw: "Throw"
   }
 }
 
@@ -42,6 +48,9 @@ export const finnishData: TranslationResource = {
     removeAll: "Poista kaikki",
     delete: "Poista",
     sum: "Summa",
-    noStatistics: "Ei tilastoja vielä, lisää noppia vasemmalla olevasta paneelista"
+    noStatistics: "Ei tilastoja vielä, lisää noppia vasemmalla olevasta paneelista",
+    throwingDiceTitle: "Heitetään noppia...",
+    average: "Keskiarvo",
+    throw: "Heitä"
   }
 }

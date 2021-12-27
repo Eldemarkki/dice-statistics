@@ -2,7 +2,7 @@ import { MantineProvider } from '@mantine/core';
 import { useColorScheme, useLocalStorageValue } from '@mantine/hooks';
 import React, { useState } from 'react';
 import { App } from './components/App';
-import { ColorSchemeContext } from './components/contexts/ColorSchemeContext';
+import { ColorSchemeContext } from './contexts/ColorSchemeContext';
 import { ColorScheme } from './data/ColorScheme';
 
 export const AppplicationSetup = () => {

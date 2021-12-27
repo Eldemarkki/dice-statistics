@@ -1,5 +1,5 @@
 import { createContext } from "react";
-import { ColorScheme } from "../../data/ColorScheme";
+import { ColorScheme } from "../data/ColorScheme";
 
 interface ColorSchemeContextInterface {
 	verboseTheme: ColorScheme,

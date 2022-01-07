@@ -117,7 +117,11 @@ export const DiceStatistics = ({ dices }: DiceStatisticsProps) => {
           }}
           labelFormatter={(v) => `${t("sum")}: ${v}`}
           separator=''
-          formatter={(value: number) => [`${(value * 100).toFixed(3)}%`, ""]} />
+          formatter={(value: number) => {
+            const v = (value * 100).toFixed(3);
+            const disclaimer = Number(v) === 0 ? `(${t("smallChanceDisclaimer")})` : "";
+            return [disclaimer ? `${v}% ${disclaimer}` : `${v}%`, ""];
+          }} />
         <Bar dataKey="sum" fill={theme.colors.blue[theme.colorScheme === "dark" ? 8 : 6]} />
       </BarChart>
     </ResponsiveContainer>

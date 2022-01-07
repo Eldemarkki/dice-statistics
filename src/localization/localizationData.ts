@@ -13,7 +13,8 @@ export interface TranslationResource {
     noStatistics: string,
     throwingDiceTitle: string,
     average: string,
-    throw: string
+    throw: string,
+    smallChanceDisclaimer: string
   }
 }
 
@@ -32,7 +33,8 @@ export const englishData: TranslationResource = {
     noStatistics: "No statistics yet, add some dices on the left panel",
     throwingDiceTitle: "Throwing dice...",
     average: "Average",
-    throw: "Throw"
+    throw: "Throw",
+    smallChanceDisclaimer: "Very small chance, but not 0%"
   }
 }
 
@@ -51,6 +53,7 @@ export const finnishData: TranslationResource = {
     noStatistics: "Ei tilastoja vielä, lisää noppia vasemmalla olevasta paneelista",
     throwingDiceTitle: "Heitetään noppia...",
     average: "Keskiarvo",
-    throw: "Heitä"
+    throw: "Heitä",
+    smallChanceDisclaimer: "Hyvin pieni mahdollisuus, mutta ei 0%"
   }
 }

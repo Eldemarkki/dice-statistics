@@ -7,6 +7,7 @@ var seedrandom = require("seedrandom");
 
 interface DiceThrowModalProps {
   dices: Dice[]
+  diceModifier: number
 }
 
 interface DiceThrowProps {
@@ -31,18 +32,17 @@ const DiceThrow = ({ number, revealed }: DiceThrowProps) => {
   return <Text style={{ textAlign: "center" }} size='xl' weight="bold">{number}</Text>
 }
 
-export const DiceThrowModal = ({ dices }: DiceThrowModalProps) => {
+export const DiceThrowModal = ({ dices, diceModifier }: DiceThrowModalProps) => {
   const revealDelay = 600;
   const [startSeed, setStartSeed] = useState(0);
   const { t } = useTranslation();
   const [revealed, setRevealed] = useState(false);
 
-  setInterval(() => {
-    setRevealed(true)
-  }, revealDelay)
-
   useEffect(() => {
     setStartSeed(Math.random());
+    setInterval(() => {
+      setRevealed(true)
+    }, revealDelay)
   }, [])
 
   const throws = dices.map(dice => {
@@ -54,6 +54,8 @@ export const DiceThrowModal = ({ dices }: DiceThrowModalProps) => {
     }
   })
 
+  const normalSum = throws.reduce((p, t) => p + t.number, 0)
+
   return (
     <div>
       <Grid mb={20} grow>
@@ -64,13 +66,16 @@ export const DiceThrowModal = ({ dices }: DiceThrowModalProps) => {
       {revealed &&
         <div>
           <Divider mb={20} />
-          <Group position="apart" style={{ maxWidth: 140 }} mb={5}>
+          <Group position="apart" mb={5}>
             <Text size="lg">{t("sum")}:</Text>
-            <Text size="lg">{throws.reduce((p, t) => p + t.number, 0)}</Text>
+            {diceModifier ?
+              <Text size="lg">{normalSum + diceModifier} = {normalSum} {diceModifier ? (diceModifier > 0 ? `+ (${diceModifier})` : `- (${-diceModifier})`) : ""}</Text> :
+              <Text size="lg">{normalSum}</Text>
+            }
           </Group>
-          <Group position="apart" style={{ maxWidth: 140 }}>
+          <Group position="apart">
             <Text size="lg">{t("average")}:</Text>
-            <Text size="lg">{(throws.reduce((p, t) => p + t.number, 0) / throws.length).toFixed(2)}</Text>
+            <Text size="lg">{(normalSum / throws.length).toFixed(2)}</Text>
           </Group>
         </div>
       }

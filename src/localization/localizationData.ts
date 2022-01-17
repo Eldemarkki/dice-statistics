@@ -14,7 +14,8 @@ export interface TranslationResource {
     throwingDiceTitle: string,
     average: string,
     throw: string,
-    smallChanceDisclaimer: string
+    smallChanceDisclaimer: string,
+    diceModifier: string
   }
 }
 
@@ -34,7 +35,8 @@ export const englishData: TranslationResource = {
     throwingDiceTitle: "Throwing dice...",
     average: "Average",
     throw: "Throw",
-    smallChanceDisclaimer: "Very small chance, but not 0%"
+    smallChanceDisclaimer: "Very small chance, but not 0%",
+    diceModifier: "Dice modifier"
   }
 }
 
@@ -54,6 +56,7 @@ export const finnishData: TranslationResource = {
     throwingDiceTitle: "Heitetään noppia...",
     average: "Keskiarvo",
     throw: "Heitä",
-    smallChanceDisclaimer: "Hyvin pieni mahdollisuus, mutta ei 0%"
+    smallChanceDisclaimer: "Hyvin pieni mahdollisuus, mutta ei 0%",
+    diceModifier: "Vakiolisäys"
   }
 }

@@ -12,6 +12,8 @@ import { DiceThrowModal } from "./DiceThrowModal";
 interface DiceControlPanelProps {
   dices: Dice[],
   setDices: (newDices: Dice[]) => void
+  diceModifier: number,
+  setDiceModifier: (newNumber: number) => void
 }
 
 const DiceControlPanelContainer = styled.div`
@@ -56,7 +58,13 @@ const DiceLabel = styled.span`
   min-width: 50px;
 `
 
-export const DiceControlPanel = ({ dices, setDices }: DiceControlPanelProps) => {
+const DiceModifierPanel = styled.div`
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 15px;
+`
+
+export const DiceControlPanel = ({ dices, setDices, diceModifier, setDiceModifier }: DiceControlPanelProps) => {
   const [sideCount, setSideCount] = useState(6);
   const [diceThrowModalOpen, setDiceThrowModalOpen] = useState(false);
   const { t } = useTranslation();
@@ -96,7 +104,7 @@ export const DiceControlPanel = ({ dices, setDices }: DiceControlPanelProps) => 
       onClose={() => setDiceThrowModalOpen(false)}
       centered
       title={<Title order={2}>{t("throwingDiceTitle")}</Title>}>
-      <DiceThrowModal dices={dices} />
+      <DiceThrowModal dices={dices} diceModifier={diceModifier} />
     </Modal>
     <div>
       <Title order={2}>{t("addDice")}</Title>
@@ -107,6 +115,9 @@ export const DiceControlPanel = ({ dices, setDices }: DiceControlPanelProps) => 
       <DicePresetsContainer>
         {dicePresets.map(preset => <Button onClick={() => addDice(preset)} color="green" compact key={preset}>d{preset}</Button>)}
       </DicePresetsContainer>
+      <DiceModifierPanel>
+        <NumberInput label={t("diceModifier")} size="sm" value={diceModifier} onChange={val => setDiceModifier(val || 0)} />
+      </DiceModifierPanel>
       {sideProduct >= warningDiceAmount && !areAllSame && <Alert icon="⚠️" title={t("diceAmountWarningTitle")} color="red">{t("diceAmountWarningText")}</Alert>}
       {sideProduct >= warningDiceAmount && areAllSame && <Alert icon="⚠️" title={t("diceAmountWarningTitle")} color="yellow">{t("sameDiceAmountWarningText")}</Alert>}
       <Space />
@@ -118,7 +129,7 @@ export const DiceControlPanel = ({ dices, setDices }: DiceControlPanelProps) => 
             <Button onClick={() => setDices([])} size="xs" variant="outline" color="red">{t("removeAll")}</Button>
           </Group>
         </DiceListHeader>
-        <DiceConfiguration dices={dices.map(d => d.sideCount)} />
+        <DiceConfiguration dices={dices.map(d => d.sideCount)} diceModifier={diceModifier} />
       </div>
       }
     </div>

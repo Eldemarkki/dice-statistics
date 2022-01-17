@@ -16,12 +16,14 @@ const useStyles = createStyles((theme) => ({
 
 export const App = () => {
   const [dices, setDices] = useState<Dice[]>([]);
+  const [diceModifier, setDiceModifier] = useState(0);
+
   const { classes } = useStyles();
 
   return (
     <div className={classes.appContainer}>
-      <DiceControlPanel dices={dices} setDices={setDices} />
-      <DiceStatistics dices={dices.map(d => d.sideCount)} />
+      <DiceControlPanel dices={dices} setDices={setDices} diceModifier={diceModifier} setDiceModifier={setDiceModifier} />
+      <DiceStatistics dices={dices.map(d => d.sideCount)} diceModifier={diceModifier}/>
     </div>
   );
 }

@@ -5,6 +5,7 @@ import { Center, Text, useMantineTheme } from '@mantine/core';
 
 interface DiceStatisticsProps {
   dices: number[]
+  diceModifier: number
 };
 
 const DiceStatisticsContainer = styled.div`
@@ -84,7 +85,7 @@ const calculateProbabilities = (dices: number[]): { [key: number]: number } => {
   }
 }
 
-export const DiceStatistics = ({ dices }: DiceStatisticsProps) => {
+export const DiceStatistics = ({ dices, diceModifier }: DiceStatisticsProps) => {
   const sumTable = calculateProbabilities(dices)
   const { t } = useTranslation();
   const theme = useMantineTheme()
@@ -104,7 +105,9 @@ export const DiceStatistics = ({ dices }: DiceStatisticsProps) => {
   return <DiceStatisticsContainer>
     <ResponsiveContainer>
       <BarChart data={data} height={500} width={500}>
-        <XAxis dataKey="name" />
+        <XAxis dataKey="name"
+          tickFormatter={(value) => String(Number(value) + diceModifier)}
+        />
         <YAxis
           tickCount={10}
           unit={"%"}
@@ -115,7 +118,7 @@ export const DiceStatistics = ({ dices }: DiceStatisticsProps) => {
           cursor={{
             fill: theme.fn.rgba(theme.colors.gray[theme.colorScheme === "dark" ? 5 : 4], 0.7)
           }}
-          labelFormatter={(v) => `${t("sum")}: ${v}`}
+          labelFormatter={(v) => `${t("sum")}: ${(Number(v) + Number(diceModifier))}`}
           separator=''
           formatter={(value: number) => {
             const v = (value * 100).toFixed(3);

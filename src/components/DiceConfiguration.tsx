@@ -2,6 +2,7 @@ import { createStyles } from '@mantine/core';
 
 interface DiceConfigurationProps {
   dices: number[],
+  diceModifier: number
 }
 
 const useStyles = createStyles(theme => ({
@@ -19,7 +20,7 @@ const useStyles = createStyles(theme => ({
   }
 }))
 
-export const DiceConfiguration = ({ dices }: DiceConfigurationProps) => {
+export const DiceConfiguration = ({ dices, diceModifier }: DiceConfigurationProps) => {
   const { classes } = useStyles();
 
   const amounts: { [sideCount: number]: number } = dices.reduce<{
@@ -34,6 +35,7 @@ export const DiceConfiguration = ({ dices }: DiceConfigurationProps) => {
   return (
     <div className={classes.container}>
       {parts.map(p => <span key={p} className={classes.dicePart}>{p}</span>)}
+      {diceModifier ? <span className={classes.dicePart}>{diceModifier > 0 ? `+ ${diceModifier}` : `- ${-diceModifier}`}</span> : undefined}
     </div>
   )
 }

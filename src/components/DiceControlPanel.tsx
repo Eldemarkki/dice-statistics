@@ -99,13 +99,13 @@ export const DiceControlPanel = ({ dices, setDices, diceModifier, setDiceModifie
   const warningDiceAmount = 20 * 20 * 20 * 20 * 10;
 
   return <DiceControlPanelContainer>
-    <Modal
+    {diceThrowModalOpen && <Modal
       opened={diceThrowModalOpen}
       onClose={() => setDiceThrowModalOpen(false)}
       centered
       title={<Title order={2}>{t("throwingDiceTitle")}</Title>}>
       <DiceThrowModal dices={dices} diceModifier={diceModifier} />
-    </Modal>
+    </Modal>}
     <div>
       <Title order={2}>{t("addDice")}</Title>
       <Group mt={10} mb={15} position="apart">

@@ -3,7 +3,6 @@ import { useInterval } from '@mantine/hooks';
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next';
 import Dice from '../data/Dice'
-var seedrandom = require("seedrandom");
 
 interface DiceThrowModalProps {
   dices: Dice[]
@@ -37,6 +36,10 @@ export const DiceThrowModal = ({ dices, diceModifier }: DiceThrowModalProps) => 
   const [startSeed, setStartSeed] = useState(0);
   const { t } = useTranslation();
   const [revealed, setRevealed] = useState(false);
+  const [throws, setThrows] = useState<{
+    number: number,
+    id: string
+  }[]>([]);
 
   useEffect(() => {
     setStartSeed(Math.random());
@@ -45,14 +48,15 @@ export const DiceThrowModal = ({ dices, diceModifier }: DiceThrowModalProps) => 
     }, revealDelay)
   }, [])
 
-  const throws = dices.map(dice => {
-    const random01 = seedrandom(String(startSeed) + dice.id)()
-    const number = Math.floor(random01 * dice.sideCount) + 1;
-    return {
-      number,
-      id: dice.id,
-    }
-  })
+  useEffect(() => {
+    setThrows(dices.map(dice => {
+      const number = Math.floor(Math.random() * dice.sideCount + 1);
+      return {
+        number,
+        id: dice.id,
+      }
+    }));
+  }, [dices, startSeed])
 
   const normalSum = throws.reduce((p, t) => p + t.number, 0)
 

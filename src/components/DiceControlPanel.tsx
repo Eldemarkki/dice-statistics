@@ -42,7 +42,6 @@ const DiceList = styled(List)`
   margin: 0;
   flex-grow: 1;
   overflow-y: auto;
-  padding-right: 10px;
 `;
 
 const DicePresetsContainer = styled.div`

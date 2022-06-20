@@ -98,7 +98,7 @@ export const DiceStatistics = ({ dices, diceModifier }: DiceStatisticsProps) => 
 
   if (dices.length === 0) {
     return <Center style={{ flexGrow: 1 }}>
-      <Text color={theme.colorScheme === "dark" ? "white" : "black"}>{t("noStatistics")}</Text>
+      <Text>{t("noStatistics")}</Text>
     </Center>
   }
 
@@ -117,6 +117,9 @@ export const DiceStatistics = ({ dices, diceModifier }: DiceStatisticsProps) => 
         <Tooltip
           cursor={{
             fill: theme.fn.rgba(theme.colors.gray[theme.colorScheme === "dark" ? 5 : 4], 0.7)
+          }}
+          labelStyle={{
+            color: "black"
           }}
           labelFormatter={(v) => `${t("sum")}: ${(Number(v) + Number(diceModifier))}`}
           separator=''

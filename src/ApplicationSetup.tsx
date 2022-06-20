@@ -23,7 +23,11 @@ export const AppplicationSetup = () => {
   }
 
   return (
-    <MantineProvider theme={{ colorScheme: actualColorScheme }}>
+    <MantineProvider
+      withGlobalStyles
+      withNormalizeCSS
+      theme={{ colorScheme: actualColorScheme }}
+    >
       <ColorSchemeContext.Provider value={colorSchemeValue}>
         <App />
       </ColorSchemeContext.Provider>

@@ -107,9 +107,9 @@ export const DiceControlPanel = ({ dices, setDices, diceModifier, setDiceModifie
     </Modal>}
     <div>
       <Title order={2}>{t("addDice")}</Title>
-      <Group mt={10} mb={15} position="apart">
+      <Group mt={10} mb={15} position="apart" noWrap>
         <NumberInput size="sm" value={sideCount} onChange={val => setSideCount(val || 6)} min={1} />
-        <Button style={{ minWidth: 70, flex: 1 }} onClick={() => addDice(sideCount)}>{t("add")}</Button>
+        <Button style={{ minWidth: 80, flex: 1 }} onClick={() => addDice(sideCount)}>{t("add")}</Button>
       </Group>
       <DicePresetsContainer>
         {dicePresets.map(preset => <Button onClick={() => addDice(preset)} color="green" compact key={preset}>d{preset}</Button>)}

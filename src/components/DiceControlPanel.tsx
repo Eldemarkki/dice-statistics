@@ -17,7 +17,7 @@ interface DiceControlPanelProps {
 }
 
 const DiceControlPanelContainer = styled.div`
-  max-width: 320px;
+  width: 330px;
   padding: 20px;
   display: flex;
   flex-direction: column;
@@ -110,16 +110,16 @@ export const DiceControlPanel = ({ dices, setDices, diceModifier, setDiceModifie
       <Title order={2}>{t("addDice")}</Title>
       <Group mt={10} mb={15} position="apart">
         <NumberInput size="sm" value={sideCount} onChange={val => setSideCount(val || 6)} min={1} />
-        <Button style={{ minWidth: 70 }} onClick={() => addDice(sideCount)}>{t("add")}</Button>
+        <Button style={{ minWidth: 70, flex: 1 }} onClick={() => addDice(sideCount)}>{t("add")}</Button>
       </Group>
       <DicePresetsContainer>
         {dicePresets.map(preset => <Button onClick={() => addDice(preset)} color="green" compact key={preset}>d{preset}</Button>)}
       </DicePresetsContainer>
       <DiceModifierPanel>
-        <NumberInput label={t("diceModifier")} size="sm" value={diceModifier} onChange={val => setDiceModifier(val || 0)} />
+        <NumberInput sx={{ flex: 1 }} label={t("diceModifier")} size="sm" value={diceModifier} onChange={val => setDiceModifier(val || 0)} />
       </DiceModifierPanel>
-      {sideProduct >= warningDiceAmount && !areAllSame && <Alert icon="⚠️" title={t("diceAmountWarningTitle")} color="red">{t("diceAmountWarningText")}</Alert>}
-      {sideProduct >= warningDiceAmount && areAllSame && <Alert icon="⚠️" title={t("diceAmountWarningTitle")} color="yellow">{t("sameDiceAmountWarningText")}</Alert>}
+      {sideProduct >= warningDiceAmount && !areAllSame && <Alert icon="⚠️" mb="md" title={t("diceAmountWarningTitle")} color="red">{t("diceAmountWarningText")}</Alert>}
+      {sideProduct >= warningDiceAmount && areAllSame && <Alert icon="⚠️" mb="md" title={t("diceAmountWarningTitle")} color="yellow">{t("sameDiceAmountWarningText")}</Alert>}
       <Space />
       {dices.length !== 0 && <div>
         <DiceListHeader>

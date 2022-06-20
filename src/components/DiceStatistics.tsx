@@ -98,7 +98,7 @@ export const DiceStatistics = ({ dices, diceModifier }: DiceStatisticsProps) => 
 
   if (dices.length === 0) {
     return <Center style={{ flexGrow: 1 }}>
-      <Text>{t("noStatistics")}</Text>
+      <Text color={theme.colorScheme === "dark" ? "white" : "black"}>{t("noStatistics")}</Text>
     </Center>
   }
 

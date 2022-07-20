@@ -5,7 +5,7 @@
   "homepage": "https://eldemarkki.github.io/dice-statistics/",
   "type": "module",
   "dependencies": {
-    "@mantine/core": "^4.2.10",
+    "@mantine/core": "^4.2.11",
     "@mantine/hooks": "^4.2.10",
     "@radix-ui/react-icons": "^1.1.1",
     "@types/node": "^18.0.0",

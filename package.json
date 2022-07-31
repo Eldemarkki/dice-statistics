@@ -5,13 +5,13 @@
   "homepage": "https://eldemarkki.github.io/dice-statistics/",
   "type": "module",
   "dependencies": {
-    "@mantine/core": "^5.0.0",
-    "@mantine/hooks": "^5.0.0",
+    "@mantine/core": "^5.0.2",
+    "@mantine/hooks": "^5.0.2",
     "@radix-ui/react-icons": "^1.1.1",
-    "@types/node": "^18.6.2",
+    "@types/node": "^18.6.3",
     "@types/react": "^18.0.15",
     "@types/react-dom": "^18.0.6",
-    "i18next": "^21.8.14",
+    "i18next": "^21.8.16",
     "i18next-browser-languagedetector": "^6.1.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -53,6 +53,6 @@
     "rollup-plugin-analyzer": "^4.0.0",
     "rollup-plugin-visualizer": "^5.7.1",
     "typescript": "^4.7.4",
-    "vite": "^3.0.3"
+    "vite": "^3.0.4"
   }
 }

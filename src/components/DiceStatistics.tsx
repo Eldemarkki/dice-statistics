@@ -114,7 +114,7 @@ export const DiceStatistics = ({ dices, diceModifier }: DiceStatisticsProps) => 
           interval={0}
           tickFormatter={(value, index) => `${(Number(value) * 100).toFixed(1)}`} />
         <CartesianGrid vertical={false} />
-        <Tooltip
+        <Tooltip<number, string>
           cursor={{
             fill: theme.fn.rgba(theme.colors.gray[theme.colorScheme === "dark" ? 5 : 4], 0.7)
           }}
@@ -123,10 +123,13 @@ export const DiceStatistics = ({ dices, diceModifier }: DiceStatisticsProps) => 
           }}
           labelFormatter={(v) => `${t("sum")}: ${(Number(v) + Number(diceModifier))}`}
           separator=''
-          formatter={(value: number) => {
+          formatter={value => {
             const v = (value * 100).toFixed(3);
             const disclaimer = Number(v) === 0 ? `(${t("smallChanceDisclaimer")})` : "";
-            return [disclaimer ? `${v}% ${disclaimer}` : `${v}%`, ""];
+
+            // TODO: the `as unknown as number | [number, string]` is a hack to 
+            // make the type checker happy. fix it (might be a bug in recharts too)
+            return [disclaimer ? `${v}% ${disclaimer}` : `${v}%`, ""] as unknown as number | [number, string];
           }} />
         <Bar dataKey="sum" fill={theme.colors.blue[theme.colorScheme === "dark" ? 8 : 6]} />
       </BarChart>

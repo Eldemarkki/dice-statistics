@@ -48,7 +48,7 @@
     "@types/uuid": "^8.3.4",
     "@vitejs/plugin-react": "^2.1.0",
     "rollup-plugin-analyzer": "^4.0.0",
-    "rollup-plugin-visualizer": "^5.8.2",
+    "rollup-plugin-visualizer": "^5.8.3",
     "vite": "^3.1.8"
   }
 }

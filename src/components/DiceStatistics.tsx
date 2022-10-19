@@ -1,7 +1,14 @@
 import styled from 'styled-components';
 import { useTranslation } from 'react-i18next';
-import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import { Center, Text, useMantineTheme } from '@mantine/core';
+import { Bar } from 'react-chartjs-2';
+import { BarElement, Chart as ChartJS, LinearScale, Tooltip, } from "chart.js";
+
+ChartJS.register(
+  BarElement,
+  LinearScale,
+  Tooltip
+);
 
 interface DiceStatisticsProps {
   dices: number[]
@@ -103,7 +110,67 @@ export const DiceStatistics = ({ dices, diceModifier }: DiceStatisticsProps) => 
   }
 
   return <DiceStatisticsContainer>
-    <ResponsiveContainer>
+    <Bar
+      data={{
+        datasets: [
+          {
+            data: data.map(d => d.sum),
+            backgroundColor: theme.colors.blue[5],
+          }
+        ],
+        labels: data.map(d => d.name)
+      }}
+      options={{
+        maintainAspectRatio: false,
+        responsive: true,
+        plugins: {
+          tooltip: {
+            mode: "x",
+            intersect: false,
+            callbacks: {
+              title(tooltipItems) {
+                return t("sum") + ": " + tooltipItems[0].label;
+              },
+              label(tooltipItems) {
+                const probability = Number(tooltipItems.raw);
+                return (probability * 100).toFixed(3) + "%";
+              }
+            },
+            displayColors: false,
+            titleFont: {
+              size: 20,
+            },
+            bodyFont: {
+              size: 18,
+            },
+            padding: 15
+          }
+        },
+        scales: {
+          x: {
+            type: "linear",
+            ticks: {
+              stepSize: 1
+            },
+            grid: {
+              color: theme.colors.gray[5]
+            }
+          },
+          y: {
+            type: "linear",
+            grid: {
+              color: theme.colors.gray[5]
+            },
+            ticks: {
+              callback(tickValue, index, ticks) {
+                return (Number(tickValue) * 100).toFixed(2) + "%";
+              },
+            }
+          }
+        }
+      }}
+    />
+    {/* <ResponsiveContainer>
       <BarChart data={data} height={500} width={500}>
         <XAxis dataKey="name"
           tickFormatter={(value) => String(Number(value) + diceModifier)}
@@ -133,6 +200,6 @@ export const DiceStatistics = ({ dices, diceModifier }: DiceStatisticsProps) => 
           }} />
         <Bar dataKey="sum" fill={theme.colors.blue[theme.colorScheme === "dark" ? 8 : 6]} />
       </BarChart>
-    </ResponsiveContainer>
+    </ResponsiveContainer> */}
   </DiceStatisticsContainer>
 }

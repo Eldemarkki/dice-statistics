@@ -118,7 +118,7 @@ export const DiceStatistics = ({ dices, diceModifier }: DiceStatisticsProps) => 
             backgroundColor: theme.colors.blue[5],
           }
         ],
-        labels: data.map(d => d.name)
+        labels: data.map(d => Number(d.name) + diceModifier)
       }}
       options={{
         maintainAspectRatio: false,

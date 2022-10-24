@@ -10,7 +10,7 @@
     "@radix-ui/react-icons": "^1.1.1",
     "@types/node": "^18.11.3",
     "@types/react": "^18.0.21",
-    "@types/react-dom": "^18.0.6",
+    "@types/react-dom": "^18.0.7",
     "chart.js": "^3.9.1",
     "i18next": "^22.0.2",
     "i18next-browser-languagedetector": "^6.1.8",

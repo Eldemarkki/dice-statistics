@@ -13,7 +13,7 @@
     "@types/react-dom": "^18.0.7",
     "chart.js": "^3.9.1",
     "i18next": "^22.0.2",
-    "i18next-browser-languagedetector": "^6.1.8",
+    "i18next-browser-languagedetector": "^7.0.0",
     "react": "^18.2.0",
     "react-chartjs-2": "^4.3.1",
     "react-dom": "^18.2.0",

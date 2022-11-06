@@ -1,6 +1,6 @@
 import React from 'react';
 import { createRoot } from "react-dom/client";
-import { AppplicationSetup } from './ApplicationSetup';
+import { ApplicationSetup } from './ApplicationSetup';
 import "./index.css";
 import "./localization/i18n";
 
@@ -9,6 +9,6 @@ const rootElement = document.getElementById("root") ?? document.createElement("d
 const root = createRoot(rootElement)
 root.render(
   <React.StrictMode>
-    <AppplicationSetup />
+    <ApplicationSetup />
   </React.StrictMode>
 );

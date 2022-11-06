@@ -2,7 +2,7 @@ import { ColorScheme, ColorSchemeProvider, MantineProvider } from '@mantine/core
 import { useColorScheme, useLocalStorage } from '@mantine/hooks';
 import { App } from './components/App';
 
-export const AppplicationSetup = () => {
+export const ApplicationSetup = () => {
   const preferredColorScheme = useColorScheme();
   const [colorSchemeFromLocalStorage, setColorSchemeToLocalStorage] = useLocalStorage<ColorScheme | undefined>({
     key: "colorScheme",

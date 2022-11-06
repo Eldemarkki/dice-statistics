@@ -1,39 +1,34 @@
-import { MantineProvider } from '@mantine/core';
+import { ColorScheme, ColorSchemeProvider, MantineProvider } from '@mantine/core';
 import { useColorScheme, useLocalStorage } from '@mantine/hooks';
-import React, { useState } from 'react';
 import { App } from './components/App';
-import { ColorSchemeContext } from './contexts/ColorSchemeContext';
-import { ColorScheme } from './data/ColorScheme';
 
 export const AppplicationSetup = () => {
   const preferredColorScheme = useColorScheme();
-  const [colorSchemeFromLocalStorage, setColorSchemeToLocalStorage] = useLocalStorage<ColorScheme>({
+  const [colorSchemeFromLocalStorage, setColorSchemeToLocalStorage] = useLocalStorage<ColorScheme | undefined>({
     key: "colorScheme",
-    defaultValue: preferredColorScheme
+    defaultValue: undefined
   })
-  const [colorScheme, setColorScheme] = useState(colorSchemeFromLocalStorage);
-  const actualColorScheme = colorScheme === "system" ? preferredColorScheme : colorScheme;
 
-  const setTheme = (newTheme: ColorScheme) => {
-    setColorScheme(newTheme);
-    setColorSchemeToLocalStorage(newTheme)
-  }
-
-  const colorSchemeValue = {
-    verboseTheme: colorScheme,
-    theme: actualColorScheme,
-    setTheme
-  }
+  const actualColorScheme = colorSchemeFromLocalStorage || preferredColorScheme;
 
   return (
     <MantineProvider
       withGlobalStyles
       withNormalizeCSS
-      theme={{ colorScheme: actualColorScheme }}
+      theme={{
+        colorScheme: actualColorScheme,
+      }}
     >
-      <ColorSchemeContext.Provider value={colorSchemeValue}>
+      <ColorSchemeProvider colorScheme={actualColorScheme} toggleColorScheme={(newTheme) => {
+        if (newTheme) {
+          setColorSchemeToLocalStorage(newTheme);
+        }
+        else {
+          setColorSchemeToLocalStorage(actualColorScheme === "dark" ? "light" : "dark");
+        }
+      }}>
         <App />
-      </ColorSchemeContext.Provider>
+      </ColorSchemeProvider>
     </MantineProvider>
   );
 }

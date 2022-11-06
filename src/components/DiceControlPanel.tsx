@@ -1,11 +1,10 @@
-import { Alert, Button, Group, List, Modal, NumberInput, SegmentedControl, Space, Title } from "@mantine/core";
+import { Alert, Button, Group, List, Modal, NumberInput, SegmentedControl, Space, Title, useMantineColorScheme } from "@mantine/core";
 import { MoonIcon, SunIcon } from "@radix-ui/react-icons";
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "styled-components";
 import Dice, { createDie } from "../data/Dice";
 import i18n, { languageResources } from "../localization/i18n";
-import { ColorSchemeContext } from "../contexts/ColorSchemeContext";
 import { DiceConfiguration } from "./DiceConfiguration";
 import { DiceThrowModal } from "./DiceThrowModal";
 
@@ -67,9 +66,9 @@ export const DiceControlPanel = ({ dices, setDices, diceModifier, setDiceModifie
   const [sideCount, setSideCount] = useState(6);
   const [diceThrowModalOpen, setDiceThrowModalOpen] = useState(false);
   const { t } = useTranslation();
-  const { theme, setTheme } = useContext(ColorSchemeContext);
+  const { colorScheme, toggleColorScheme } = useMantineColorScheme();
 
-  const themeIcon = theme === "dark" ? <SunIcon /> : <MoonIcon />;
+  const themeIcon = colorScheme === "dark" ? <SunIcon /> : <MoonIcon />;
 
   const addDice = (sides: number) => {
     setDices([...dices, createDie(sides)]);
@@ -142,7 +141,7 @@ export const DiceControlPanel = ({ dices, setDices, diceModifier, setDiceModifie
     </DiceList>
     <Group position="apart">
       <SegmentedControl data={languageData} value={i18n.language} onChange={setLanguage} />
-      <Button color={theme === "dark" ? "light" : "dark"} onClick={() => setTheme(theme === "dark" ? "light" : "dark")}>{themeIcon}</Button>
+      <Button color={colorScheme === "dark" ? "light" : "dark"} onClick={() => toggleColorScheme(colorScheme === "dark" ? "light" : "dark")}>{themeIcon}</Button>
     </Group>
   </DiceControlPanelContainer>
 }

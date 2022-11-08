@@ -1,7 +1,8 @@
-import { v4 as uuid } from "uuid";
+let runningId = 0;
+const createId = () => runningId++;
 
 export const createDie = (sideCount: number): Dice => ({
-	id: uuid(),
+	id: String(createId()),
 	sideCount
 })
 

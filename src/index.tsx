@@ -2,7 +2,6 @@ import React from 'react';
 import { createRoot } from "react-dom/client";
 import { ApplicationSetup } from './ApplicationSetup';
 import "./index.css";
-import "./localization/i18n";
 
 const rootElement = document.getElementById("root") ?? document.createElement("div");
 

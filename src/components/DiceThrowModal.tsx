@@ -1,8 +1,8 @@
 import { Col, Divider, Grid, Group, Text } from '@mantine/core'
 import { useInterval } from '@mantine/hooks';
 import { useEffect, useState } from 'react'
-import { useTranslation } from 'react-i18next';
 import Dice from '../data/Dice'
+import { useTranslation } from '../hooks/useTranslation';
 
 interface DiceThrowModalProps {
   dices: Dice[]
@@ -34,7 +34,7 @@ const DiceThrow = ({ number, revealed }: DiceThrowProps) => {
 export const DiceThrowModal = ({ dices, diceModifier }: DiceThrowModalProps) => {
   const revealDelay = 600;
   const [startSeed, setStartSeed] = useState(0);
-  const { t } = useTranslation();
+  const t = useTranslation();
   const [revealed, setRevealed] = useState(false);
   const [throws, setThrows] = useState<{
     number: number,

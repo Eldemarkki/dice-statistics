@@ -1,10 +1,10 @@
 import { Alert, Button, Group, List, Modal, NumberInput, SegmentedControl, Space, Title, useMantineColorScheme } from "@mantine/core";
 import { MoonIcon, SunIcon } from "@radix-ui/react-icons";
 import { useState } from "react";
-import { useTranslation } from "react-i18next";
 import styled from "styled-components";
 import Dice, { createDie } from "../data/Dice";
-import i18n, { languageResources } from "../localization/i18n";
+import { useLanguage } from "../hooks/useLanguage";
+import { Language, languageResources, useTranslation } from "../hooks/useTranslation";
 import { DiceConfiguration } from "./DiceConfiguration";
 import { DiceThrowModal } from "./DiceThrowModal";
 
@@ -65,8 +65,9 @@ const DiceModifierPanel = styled.div`
 export const DiceControlPanel = ({ dices, setDices, diceModifier, setDiceModifier }: DiceControlPanelProps) => {
   const [sideCount, setSideCount] = useState(6);
   const [diceThrowModalOpen, setDiceThrowModalOpen] = useState(false);
-  const { t } = useTranslation();
+  const t = useTranslation();
   const { colorScheme, toggleColorScheme } = useMantineColorScheme();
+  const { language, setLanguage } = useLanguage();
 
   const themeIcon = colorScheme === "dark" ? <SunIcon /> : <MoonIcon />;
 
@@ -85,14 +86,12 @@ export const DiceControlPanel = ({ dices, setDices, diceModifier, setDiceModifie
   const languageData: {
     value: string,
     label: string
-  }[] = Object.keys(languageResources).map(key => ({
-    value: key,
-    label: i18n.t("languageName", { lng: key })
-  }))
-
-  const setLanguage = (value: string) => {
-    i18n.changeLanguage(value);
-  }
+  }[] = Object
+    .keys(languageResources)
+    .map(languageName => ({
+      value: languageName,
+      label: t("languageName", languageName as Language)
+    }))
 
   const warningDiceAmount = 20 * 20 * 20 * 20 * 10;
 
@@ -140,7 +139,7 @@ export const DiceControlPanel = ({ dices, setDices, diceModifier, setDiceModifie
       </List.Item>))}
     </DiceList>
     <Group position="apart">
-      <SegmentedControl data={languageData} value={i18n.language} onChange={setLanguage} />
+      <SegmentedControl data={languageData} value={language} onChange={setLanguage} />
       <Button color={colorScheme === "dark" ? "light" : "dark"} onClick={() => toggleColorScheme(colorScheme === "dark" ? "light" : "dark")}>{themeIcon}</Button>
     </Group>
   </DiceControlPanelContainer>

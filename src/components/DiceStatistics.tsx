@@ -1,8 +1,8 @@
 import styled from 'styled-components';
-import { useTranslation } from 'react-i18next';
 import { Center, Text, useMantineTheme } from '@mantine/core';
 import { Bar } from 'react-chartjs-2';
 import { BarElement, Chart as ChartJS, LinearScale, Tooltip, } from "chart.js";
+import { useTranslation } from '../hooks/useTranslation';
 
 ChartJS.register(
   BarElement,
@@ -94,7 +94,7 @@ const calculateProbabilities = (dices: number[]): { [key: number]: number } => {
 
 export const DiceStatistics = ({ dices, diceModifier }: DiceStatisticsProps) => {
   const sumTable = calculateProbabilities(dices)
-  const { t } = useTranslation();
+  const t = useTranslation();
   const theme = useMantineTheme()
   const data = Object.keys(sumTable).sort((a, b) => Number(a) - Number(b)).map(key => {
     return {

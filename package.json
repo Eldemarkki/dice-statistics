@@ -8,7 +8,7 @@
     "@mantine/core": "^5.9.4",
     "@mantine/hooks": "^5.5.4",
     "@radix-ui/react-icons": "^1.1.1",
-    "@types/node": "^18.11.15",
+    "@types/node": "^18.11.16",
     "@types/react": "^18.0.26",
     "@types/react-dom": "^18.0.9",
     "chart.js": "^3.9.1",

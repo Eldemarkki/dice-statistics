@@ -45,6 +45,6 @@
     "@types/styled-components": "^5.1.26",
     "@vitejs/plugin-react": "^4.0.2",
     "rollup-plugin-visualizer": "^5.9.2",
-    "vite": "^4.4.2"
+    "vite": "^4.4.4"
   }
 }

@@ -6,7 +6,7 @@
   "type": "module",
   "dependencies": {
     "@mantine/core": "^6.0.20",
-    "@mantine/hooks": "^6.0.6",
+    "@mantine/hooks": "^6.0.20",
     "@radix-ui/react-icons": "^1.3.0",
     "chart.js": "^4.4.0",
     "react": "^18.2.0",
@@ -39,10 +39,9 @@
     ]
   },
   "devDependencies": {
-    "@types/node": "^20.6.1",
+    "@types/node": "^20.6.2",
     "@types/react": "^18.2.21",
     "@types/react-dom": "^18.2.7",
-    "@types/styled-components": "^5.1.27",
     "@vitejs/plugin-react": "^4.0.4",
     "rollup-plugin-visualizer": "^5.9.2",
     "vite": "^4.4.9"

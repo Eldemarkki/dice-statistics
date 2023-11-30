@@ -1,7 +1,7 @@
-import styled from "styled-components";
 import { Center, Text, useMantineTheme } from "@mantine/core";
-import { Bar } from "react-chartjs-2";
 import { BarElement, Chart as ChartJS, LinearScale, Tooltip } from "chart.js";
+import { Bar } from "react-chartjs-2";
+import styled from "styled-components";
 import { useTranslation } from "../hooks/useTranslation";
 
 ChartJS.register(BarElement, LinearScale, Tooltip);
@@ -141,11 +141,11 @@ export const DiceStatistics = ({
 							intersect: false,
 							callbacks: {
 								title(tooltipItems) {
-									return t("sum") + ": " + tooltipItems[0].label;
+									return `${t("sum")}: ${tooltipItems[0].label}`;
 								},
 								label(tooltipItems) {
 									const probability = Number(tooltipItems.raw);
-									return (probability * 100).toFixed(3) + "%";
+									return `${(probability * 100).toFixed(3)}%`;
 								},
 							},
 							displayColors: false,
@@ -175,7 +175,7 @@ export const DiceStatistics = ({
 							},
 							ticks: {
 								callback(tickValue, index, ticks) {
-									return (Number(tickValue) * 100).toFixed(2) + "%";
+									return `${(Number(tickValue) * 100).toFixed(2)}%`;
 								},
 							},
 						},

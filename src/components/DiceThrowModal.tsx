@@ -21,11 +21,11 @@ const DiceThrow = ({ number, revealed }: DiceThrowProps) => {
 		setGarbageIndex((s) => s + 1);
 	}, randomGarbageRate);
 
+	// biome-ignore lint/correctness/useExhaustiveDependencies: For some reason, `start` and `stop` can NOT be dependencies here, or otherwise it won't work
 	useEffect(() => {
 		start();
 		return stop;
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, []); // For some reason, `start` and `stop` can NOT be dependencies here, or otherwise it won't work
+	}, []);
 
 	if (!revealed)
 		return (
@@ -45,7 +45,6 @@ export const DiceThrowModal = ({
 	diceModifier,
 }: DiceThrowModalProps) => {
 	const revealDelay = 600;
-	const [startSeed, setStartSeed] = useState(0);
 	const t = useTranslation();
 	const [revealed, setRevealed] = useState(false);
 	const [throws, setThrows] = useState<
@@ -54,13 +53,6 @@ export const DiceThrowModal = ({
 			id: string;
 		}[]
 	>([]);
-
-	useEffect(() => {
-		setStartSeed(Math.random());
-		setInterval(() => {
-			setRevealed(true);
-		}, revealDelay);
-	}, []);
 
 	useEffect(() => {
 		setThrows(
@@ -72,7 +64,11 @@ export const DiceThrowModal = ({
 				};
 			}),
 		);
-	}, [dices, startSeed]);
+
+		setInterval(() => {
+			setRevealed(true);
+		}, revealDelay);
+	}, [dices]);
 
 	const normalSum = throws.reduce((p, t) => p + t.number, 0);
 

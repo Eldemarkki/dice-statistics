@@ -3,10 +3,10 @@ const createId = () => runningId++;
 
 export const createDie = (sideCount: number): Dice => ({
 	id: String(createId()),
-	sideCount
-})
+	sideCount,
+});
 
 export default interface Dice {
-	id: string,
-	sideCount: number
+	id: string;
+	sideCount: number;
 }

@@ -53,19 +53,19 @@ const choose = (n: bigint, k: bigint) => {
 	return result / factorial(n - k);
 };
 
-const calculateProbabilities = (dices: number[]): { [key: number]: number } => {
-	if (dices.length === 0) return {};
+const calculateProbabilities = (dices: number[]) => {
+	if (dices.length === 0) return new Map<number, number>();
 
 	const areAllSame = dices.every((d) => d === dices[0]);
 
-	const sumTable: { [key: number]: number } = {};
+	const sumTable = new Map<number, number>();
 	if (areAllSame) {
 		// https://www.lucamoroni.it/the-dice-roll-sum-problem/
 		const min = dices.length;
 		const max = dices.reduce((p, d) => p + d, 0);
 		const n = BigInt(dices.length);
 		const s = BigInt(dices[0]);
-		const total = Math.pow(dices[0], dices.length);
+		const total = dices[0] ** dices.length;
 		for (let p = BigInt(min); p <= BigInt(max); p++) {
 			let sum = BigInt(0);
 			const kmax = (p - n) / s;
@@ -77,23 +77,20 @@ const calculateProbabilities = (dices: number[]): { [key: number]: number } => {
 					choose(p - s * k - BigInt(1), p - s * k - n);
 			}
 
-			sumTable[Number(p)] = Math.max(Number(sum), 0) / total;
+			sumTable.set(Number(p), Math.max(Number(sum), 0) / total);
 		}
 		return sumTable;
-	} else {
-		calculateCombinationSums(dices, (sum) => {
-			sumTable[sum] = (sumTable[sum] || 0) + 1;
-		});
-
-		const total = dices.reduce((p, d) => p * d, 1);
-		return Object.keys(sumTable).reduce(
-			(prev, key) => ({
-				...prev,
-				[key]: sumTable[Number(key)] / total,
-			}),
-			{},
-		);
 	}
+
+	calculateCombinationSums(dices, (sum) => {
+		sumTable.set(sum, (sumTable.get(sum) || 0) + 1);
+	});
+
+	const total = dices.reduce((p, d) => p * d, 1);
+	return [...sumTable.entries()].reduce((prev, [key, sum]) => {
+		prev.set(key, sum / total);
+		return prev;
+	}, new Map<number, number>());
 };
 
 export const DiceStatistics = ({
@@ -103,14 +100,9 @@ export const DiceStatistics = ({
 	const sumTable = calculateProbabilities(dices);
 	const t = useTranslation();
 	const theme = useMantineTheme();
-	const data = Object.keys(sumTable)
-		.sort((a, b) => Number(a) - Number(b))
-		.map((key) => {
-			return {
-				name: key,
-				sum: sumTable[Number(key)],
-			};
-		});
+	const data = [...sumTable.entries()]
+		.sort((a, b) => a[0] - b[1])
+		.map(([name, sum]) => ({ name, sum }));
 
 	if (dices.length === 0) {
 		return (

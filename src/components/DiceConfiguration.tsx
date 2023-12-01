@@ -26,19 +26,14 @@ export const DiceConfiguration = ({
 }: DiceConfigurationProps) => {
 	const { classes } = useStyles();
 
-	const amounts: { [sideCount: number]: number } = dices.reduce<{
-		[sideCount: number]: number;
-	}>(
-		(prev, sideCount) => ({
-			...prev,
-			[sideCount]: (prev[sideCount] || 0) + 1,
-		}),
-		{},
-	);
+	const amounts = dices.reduce((prev, sideCount) => {
+		prev.set(sideCount, (prev.get(sideCount) || 0) + 1);
+		return prev;
+	}, new Map<number, number>());
 
-	const parts = Object.keys(amounts)
-		.sort((a, b) => Number(a) - Number(b))
-		.map((sideCount) => `${amounts[Number(sideCount)]}d${sideCount}`);
+	const parts = [...amounts.entries()]
+		.sort((a, b) => a[0] - b[0])
+		.map(([sideCount, n]) => `${n}d${sideCount}`);
 
 	return (
 		<div className={classes.container}>

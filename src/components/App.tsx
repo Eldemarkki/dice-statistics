@@ -1,6 +1,6 @@
 import { createStyles } from "@mantine/core";
 import { useState } from "react";
-import Dice from "../data/Dice";
+import type Dice from "../data/Dice";
 import { DiceControlPanel } from "./DiceControlPanel";
 import { DiceStatistics } from "./DiceStatistics";
 

@@ -13,10 +13,11 @@ import {
 import { MoonIcon, SunIcon } from "@radix-ui/react-icons";
 import { useState } from "react";
 import styled from "styled-components";
-import Dice, { createDie } from "../data/Dice";
+import type Dice from "../data/Dice";
+import { createDie } from "../data/Dice";
 import { useLanguage } from "../hooks/useLanguage";
 import {
-	Language,
+	type Language,
 	languageResources,
 	useTranslation,
 } from "../hooks/useTranslation";

@@ -1,5 +1,5 @@
 import { createContext } from "react";
-import { Language } from "../hooks/useTranslation";
+import type { Language } from "../hooks/useTranslation";
 
 interface LanguageContextInterface {
 	language: Language;

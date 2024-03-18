@@ -1,6 +1,6 @@
 {
-  "short_name": "Dice Simulator | Eldemarkki",
-  "name": "Dice Simulator | Eldemarkki",
-  "start_url": ".",
-  "display": "standalone"
+	"short_name": "Dice Simulator | Eldemarkki",
+	"name": "Dice Simulator | Eldemarkki",
+	"start_url": ".",
+	"display": "standalone"
 }

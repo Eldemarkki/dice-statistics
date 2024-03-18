@@ -1,5 +1,5 @@
 import {
-	TranslationResource,
+	type TranslationResource,
 	englishData,
 	finnishData,
 } from "../localization/localizationData";

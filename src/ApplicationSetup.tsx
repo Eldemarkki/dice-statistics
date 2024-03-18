@@ -1,12 +1,12 @@
 import {
-	ColorScheme,
+	type ColorScheme,
 	ColorSchemeProvider,
 	MantineProvider,
 } from "@mantine/core";
 import { useColorScheme, useLocalStorage } from "@mantine/hooks";
 import { App } from "./components/App";
 import LanguageContext from "./contexts/LanguageContext";
-import { Language } from "./hooks/useTranslation";
+import type { Language } from "./hooks/useTranslation";
 
 export const ApplicationSetup = () => {
 	const preferredColorScheme = useColorScheme();

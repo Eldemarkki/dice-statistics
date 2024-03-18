@@ -1,7 +1,7 @@
 import { Col, Divider, Grid, Group, Text } from "@mantine/core";
 import { useInterval } from "@mantine/hooks";
 import { useEffect, useState } from "react";
-import Dice from "../data/Dice";
+import type Dice from "../data/Dice";
 import { useTranslation } from "../hooks/useTranslation";
 
 interface DiceThrowModalProps {

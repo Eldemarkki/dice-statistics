@@ -9,7 +9,7 @@
 		"@mantine/hooks": "^6.0.20",
 		"@radix-ui/react-icons": "^1.3.0",
 		"chart.js": "^4.4.2",
-		"react": "^18.3.0",
+		"react": "^18.3.1",
 		"react-chartjs-2": "^5.2.0",
 		"react-dom": "^18.3.0",
 		"styled-components": "^6.1.8"
@@ -38,7 +38,7 @@
 	"devDependencies": {
 		"@biomejs/biome": "1.7.1",
 		"@types/node": "^20.12.7",
-		"@types/react": "^18.3.0",
+		"@types/react": "^18.3.1",
 		"@types/react-dom": "^18.3.0",
 		"@vitejs/plugin-react": "^4.2.1",
 		"rollup-plugin-visualizer": "^5.12.0",

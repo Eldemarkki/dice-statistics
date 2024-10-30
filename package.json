@@ -7,7 +7,7 @@
 	"dependencies": {
 		"@mantine/core": "^6.0.20",
 		"@mantine/hooks": "^6.0.20",
-		"@radix-ui/react-icons": "^1.3.0",
+		"@radix-ui/react-icons": "^1.3.1",
 		"chart.js": "^4.4.6",
 		"react": "^18.3.1",
 		"react-chartjs-2": "^5.2.0",
